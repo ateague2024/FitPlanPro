@@ -175,10 +175,13 @@ def free_trial():
 
 
 if __name__ == "__main__":
-    # Create templates and static directories if they don't exist
+    import os
+
+    # Create templates and static directories if they don't exist (optional safety)
     os.makedirs("templates", exist_ok=True)
     os.makedirs("static", exist_ok=True)
 
-    print("Starting FitPlan Pro application...")
-    print("Access the application at http://127.0.0.1:5000/")
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))  # Use Render's PORT if available
+    print(f"Starting FitPlan Pro on port {port}...")
+    app.run(host="0.0.0.0", port=port, debug=True)
+
