@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: fitplanpro
+    env: python
+    buildCommand: ""
+    startCommand: "python app.py"
+    envVars:
+      - key: EXERCISE_API_KEY
+        value: 9gy7h44vBufpXnLhODClDQ==toXWEoCiDkYRI3kb
+      - key: WEATHER_API_KEY
+        value: your_weather_api_key
