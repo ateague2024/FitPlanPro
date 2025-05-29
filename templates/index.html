@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPlan Pro - Smart Workout Recommendations</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --accent: #f72585;
+            --gray: #adb5bd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fc;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--success);
+        }
+
+        .premium-button {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .premium-button:hover {
+            background-color: #d9196e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-location {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .location-input {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 60%;
+        }
+
+        .location-input input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gray);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .detect-location {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .detect-location:hover {
+            background-color: var(--secondary);
+        }
+
+        .weather-summary {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+
+        .weather-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .workout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .workout-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .workout-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .workout-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .workout-header h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .workout-header.cardio {
+            background-color: var(--accent);
+        }
+
+        .workout-header.strength {
+            background-color: var(--secondary);
+        }
+
+        .workout-body {
+            padding: 1.5rem;
+        }
+
+        .workout-focus {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .focus-tag {
+            background-color: #e9ecef;
+            color: var(--dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .exercise-list {
+            list-style: none;
+        }
+
+        .exercise-item {
+            padding: 0.8rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+
+        .exercise-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .exercise-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .exercise-muscle {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .exercise-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-button {
+            background-color: transparent;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            color: var(--secondary);
+        }
+
+        .premium-banner {
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .banner-content {
+            max-width: 70%;
+        }
+
+        .banner-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .banner-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .upgrade-button {
+            background-color: white;
+            color: var(--accent);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .upgrade-button:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-radius: 10px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icon {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid var(--gray);
+            color: var(--gray);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .user-location {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .location-input {
+                width: 100%;
+            }
+
+            .premium-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .banner-content {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-dumbbell logo-icon"></i>
+                    <h1>FitPlan Pro</h1>
+                </div>
+                <nav class="nav-links">
+                    <a href="#">Workouts</a>
+                    <a href="#">Nutrition</a>
+                    <a href="#">Progress</a>
+                    <a href="#">Community</a>
+                </nav>
+                <a href="#" class="premium-button">Go Premium</a>
+            </div>
+        </header>
+
+        <section class="user-location">
+            <div class="location-input">
+                <input type="text" placeholder="Enter your location..." id="location-input">
+                <button class="detect-location" id="detect-location"><i class="fas fa-location-arrow"></i> Detect</button>
+            </div>
+            <div class="weather-summary">
+                <i class="fas fa-cloud-sun weather-icon"></i>
+                <div>
+                    <div id="weather-temp">72°F</div>
+                    <div id="weather-desc">Partly Cloudy</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="premium-banner">
+            <div class="banner-content">
+                <h2>Upgrade to FitPlan Pro Premium</h2>
+                <p>Get personalized workout plans, advanced weather integration, nutrition tracking, and more!</p>
+                <a href="#" class="upgrade-button">Upgrade Now</a>
+            </div>
+        </section>
+
+        <div class="workout-grid">
+            <!-- Monday -->
+            <div class="workout-card">
+                <div class="workout-header strength">
+                    <h2>Monday</h2>
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <div class="workout-body">
+                    <div class="workout-focus">
+                        <div class="focus-tag">Chest</div>
+                        <div class="focus-tag">Triceps</div>
+                    </div>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Bench Press</div>
+                                <div class="exercise-muscle">Chest</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Incline Dumbbell Press</div>
+                                <div class="exercise-muscle">Chest</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Tricep Pushdowns</div>
+                                <div class="exercise-muscle">Triceps</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tuesday -->
+            <div class="workout-card">
+                <div class="workout-header cardio">
+                    <h2>Tuesday</h2>
+                    <i class="fas fa-running"></i>
+                </div>
+                <div class="workout-body">
+                    <div class="workout-focus">
+                        <div class="focus-tag">Cardio</div>
+                    </div>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Interval Running</div>
+                                <div class="exercise-muscle">Cardio</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Jump Rope</div>
+                                <div class="exercise-muscle">Cardio</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Cycling</div>
+                                <div class="exercise-muscle">Cardio</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Wednesday -->
+            <div class="workout-card">
+                <div class="workout-header strength">
+                    <h2>Wednesday</h2>
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <div class="workout-body">
+                    <div class="workout-focus">
+                        <div class="focus-tag">Hamstrings</div>
+                        <div class="focus-tag">Calves</div>
+                        <div class="focus-tag">Glutes</div>
+                    </div>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Romanian Deadlift</div>
+                                <div class="exercise-muscle">Hamstrings</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Calf Raises</div>
+                                <div class="exercise-muscle">Calves</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Hip Thrusts</div>
+                                <div class="exercise-muscle">Glutes</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Thursday -->
+            <div class="workout-card">
+                <div class="workout-header cardio">
+                    <h2>Thursday</h2>
+                    <i class="fas fa-running"></i>
+                </div>
+                <div class="workout-body">
+                    <div class="workout-focus">
+                        <div class="focus-tag">Cardio</div>
+                    </div>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">HIIT Training</div>
+                                <div class="exercise-muscle">Cardio</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Rowing</div>
+                                <div class="exercise-muscle">Cardio</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Box Jumps</div>
+                                <div class="exercise-muscle">Cardio</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Friday -->
+            <div class="workout-card">
+                <div class="workout-header strength">
+                    <h2>Friday</h2>
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <div class="workout-body">
+                    <div class="workout-focus">
+                        <div class="focus-tag">Biceps</div>
+                        <div class="focus-tag">Lower Back</div>
+                        <div class="focus-tag">Middle Back</div>
+                        <div class="focus-tag">Traps</div>
+                    </div>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Barbell Curls</div>
+                                <div class="exercise-muscle">Biceps</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Pull-ups</div>
+                                <div class="exercise-muscle">Middle Back</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="exercise-info">
+                                <div class="exercise-name">Shrugs</div>
+                                <div class="exercise-muscle">Traps</div>
+                            </div>
+                            <div class="exercise-actions">
+                                <button class="action-button"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-button"><i class="fas fa-video"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FitPlan Pro</h3>
+                    <p>Your personalized workout planner that adapts to your schedule and local weather conditions.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Workouts</a></li>
+                        <li><a href="#">Nutrition</a></li>
+                        <li><a href="#">Progress</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 FitPlan Pro. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
