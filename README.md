@@ -1,15 +1,15 @@
-# 🏋️‍♂️ FitPlan Pro – AI-Powered Workout Planner
+# FitPlan Pro – AI-Powered Workout Planner
 
 **FitPlan Pro** is a Flask-based full-stack fitness assistant that provides smart, personalized workout recommendations based on your muscle group goals and local weather data. Users can also explore simulated subscription and free trial options.
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 *Coming soon – deploying on Render or Railway*
 
 ---
 
-## 🧠 Features
+## Features
 
 - ✅ AI-powered workout recommendations based on selected muscle groups
 - ✅ Automatically fetches local **weather forecasts** to suggest indoor vs. outdoor workouts
@@ -30,7 +30,7 @@
 
 ---
 
-## 📦 Setup & Usage
+## Setup & Usage
 
 ### 1. Clone the Repo
 ```bash
@@ -59,7 +59,7 @@ cpp
 Copy
 Edit
 http://127.0.0.1:5000/
-📁 Project Structure
+   Project Structure
 bash
 Copy
 Edit
@@ -70,7 +70,7 @@ Edit
 /static
 app.py
 README.md
-🧪 Example API Usage
+   Example API Usage
 POST /recommendations
 
 json
@@ -85,11 +85,11 @@ Edit
   }
 }
 Response
-✅ List of recommended exercises per day
+ List of recommended exercises per day
 
-✅ 5-day weather forecast
+ 5-day weather forecast
 
-📌 Future Improvements
+ Future Improvements
 Deploy live app with hosted frontend
 
 Add user login + plan-saving feature
