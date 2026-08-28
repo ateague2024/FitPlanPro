@@ -6,6 +6,12 @@ I have kept this repository public to show my earlier development work, API inte
 
 ---
 
+## Live Demo
+
+[View FitPlan Pro on Render](https://fitplanpro.onrender.com)
+
+---
+
 ## Project Overview
 
 FitPlan Pro allows users to select workout goals, submit location data, and receive recommended exercises alongside weather-based indoor or outdoor workout guidance.
@@ -48,7 +54,8 @@ The project also includes simulated subscription and free-trial functionality as
 
 **Deployment**
 
-- Render configuration included
+- Deployed on Render
+- Live application available through the repository website link
 
 ---
 
