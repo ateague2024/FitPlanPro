@@ -11,16 +11,16 @@
 
 ## Features
 
-- ✅ AI-powered workout recommendations based on selected muscle groups
-- ✅ Automatically fetches local **weather forecasts** to suggest indoor vs. outdoor workouts
-- ✅ REST API endpoint for submitting location and workout schedule
-- ✅ Simulated **subscription system** (monthly/yearly) with expiration logic
-- ✅ Free trial functionality
-- ✅ Modular codebase with clean API integration
+- AI-powered workout recommendations based on selected muscle groups
+- Automatically fetches local **weather forecasts** to suggest indoor vs. outdoor workouts
+- REST API endpoint for submitting location and workout schedule
+- Simulated **subscription system** (monthly/yearly) with expiration logic
+- Free trial functionality
+- Modular codebase with clean API integration
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend:** Python, Flask  
 - **Frontend:** Jinja2 Templates, HTML, CSS (upgradeable to React)
